@@ -9,84 +9,89 @@
                 background-color: #000000;
             }
         </style>
-        <script>
-            var n=1
-            var r=20;
-            var x=100;
-            var y=100;
-            var vx=8;
-            var vy=4;
-            var X=250;
-            var Y=250;
-            var R=50;
+<script>
+    var n=1
+    var r=20;
+    var x=[];
+    var y=[];
+    var vx=[];
+    var vy=[];
+    var X=250;
+    var Y=250;
+    var R=50;
 
-            var canvasElement;
-            var context;
-            window.addEventListener('load',function(){
-                drawStart();
-            })
-            function drawStart(){
-                canvasElement=document.getElementById('canvas');
-                canvasElement.width=canvasElement.clientWidth;
-                canvasElement.height=canvasElement.clientHeight;
-                context=canvasElement.getContext('2d');
+    var canvasElement;
+    var context;
+    window.addEventListener('load',function(){
+        drawStart();
+    })
+    function drawStart(){
+        canvasElement=document.getElementById('canvas');
+        canvasElement.width=canvasElement.clientWidth;
+        canvasElement.height=canvasElement.clientHeight;
+        context=canvasElement.getContext('2d');
+
+        x[0]=100;
+        y[0]=100;
+
+        vx[0]=8;
+        vy[0]=4;
+
+        loop();
+    }
+    function loop(){
+        
+        var width=canvasElement.width;
+        var height=canvasElement.height;
+        
+        context.clearRect(0,0,width,height);
+        
+
+        for(let i=0;i<n;i++){
+            x[i]+=vx[i];
+            y[i]+=vy[i];
+        
+        if(x[i]<r || x[i]>width-r){
+            vx[i]=-vx[i];
+        }
+        if(y[i]<r || y[i]>height-r){
+            vy[i]=-vy[i]
+        }
+        
+        L=(X-x[i])*(X-x[i])+(Y-y[i])*(Y-y[i])
+        l=(R+r)*(R+r);
+
+        if(l>L){
+            X+=vx[i]/2;
+            Y+=vy[i]/2
+            vx[i]=-vx[i];
+            vy[i]=-vy[i];
+            x[i]+=vx[i];
+            y[i]+=vy[i];
+            
+        }
+        
+        
+        context.beginPath();
+        context.arc(x[i],y[i],r,0,2*Math.PI,false);
+        context.closePath();
+        context.fillStyle="#888888";    
+        context.fill();
+
+        context.beginPath();
+        context.arc(X,Y,R,0,2*Math.PI,false);
+        context.closePath();
+        context.fillStyle="#FFFFFF";    
+        context.fill();
+
+        
 
 
-                loop();
-            }
-            function loop(){
-                
-                var width=canvasElement.width;
-                var height=canvasElement.height;
-                
+        }
 
-                for(let i=0;i<1;i++){
-                    x+=vx;
-                   y+=vy;
-                
-                if(x<r || x>width-r){
-                    vx=-vx;
-                }
-                if(y<r || y>height-r){
-                    vy=-vy
-                }
-                
-                L=(X-x)*(X-x)+(Y-y)*(Y-y)
-                l=(R+r)*(R+r);
-
-                if(l>L){
-                    X+=vx/2;
-                    Y+=vy/2
-                    vx=-vx;
-                    vy=-vy;
-                    x+=vx;
-                    y+=vy;
-                    
-                }
-                
-                
-                context.clearRect(0,0,width,height);
-                context.beginPath();
-                context.arc(x,y,r,0,2*Math.PI,false);
-                context.closePath();
-                context.fillStyle="#888888";    
-                context.fill();
-
-                context.beginPath();
-                context.arc(X,Y,R,0,2*Math.PI,false);
-                context.closePath();
-                context.fillStyle="#FFFFFF";    
-                context.fill();
-
-                
- 
-
-                }
-
-                requestAnimationFrame(loop)
-            }
-        </script>
-
+        requestAnimationFrame(loop)
+    }
+</script>
     </head>
     <body>
         <canvas id='canvas'></canvas>
