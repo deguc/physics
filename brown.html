@@ -17,9 +17,9 @@
     let vx=[];
     let vy=[];
     let v=10;
-    let X=250;
-    let Y=250;
-    let R=50;
+    let X;
+    let Y;
+    var R=50;
 
     var canvasElement;
     var context;
@@ -32,6 +32,20 @@
         canvasElement.height=canvasElement.clientHeight;
         context=canvasElement.getContext('2d');
 
+        document.getElementById("n").value = n;
+        document.getElementById("v").value = v;
+        document.getElementById("r").value = r;        
+        document.getElementById("R").value = R;        
+
+        initState();
+        loop();
+
+    }
+    function initState(){
+        n=document.getElementById("n").value;
+        v=document.getElementById("v").value;
+        r=parseInt(document.getElementById("r").value);
+        R=parseInt(document.getElementById("R").value);
         for(let i=0;i<n;i++){
             x[i]=Math.random()*500;
             y[i]=Math.random()*500;
@@ -41,9 +55,13 @@
             vy[i]=v*Math.cos(a);
             
         }
+        X=250;
+        Y=250;
 
-  
-        loop();
+    }
+    function clickBtn1(){
+        initState();
+
     }
     function loop(){
         
@@ -98,6 +116,15 @@
     </head>
     <body>
         <canvas id='canvas'></canvas>
+        <Lavel>n=</Lavel>
+        <input type="text" id="n" size="1"/>
+        <Lavel>v=</Lavel>
+        <input type="text" id="v" size="1"/>
+        <Lavel>r=</Lavel>
+        <input type="text" id="r" size="1"/>
+        <Lavel>R=</Lavel>
+        <input type="text" id="R" size="1"/>
+        <input type="button" value="最初から" onclick="clickBtn1()" />
 
     </body>
 </html>
