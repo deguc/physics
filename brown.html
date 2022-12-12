@@ -19,7 +19,7 @@
     let v=10;
     let X;
     let Y;
-    var R=50;
+    let R=50;
 
     var canvasElement;
     var context;
@@ -42,10 +42,6 @@
 
     }
     function initState(){
-        n=document.getElementById("n").value;
-        v=document.getElementById("v").value;
-        r=parseInt(document.getElementById("r").value);
-        R=parseInt(document.getElementById("R").value);
         for(let i=0;i<n;i++){
             x[i]=Math.random()*500;
             y[i]=Math.random()*500;
@@ -60,6 +56,10 @@
 
     }
     function clickBtn1(){
+        n=document.getElementById("n").value;
+        v=document.getElementById("v").value;
+        r=parseInt(document.getElementById("r").value);
+        R=parseInt(document.getElementById("R").value);
         initState();
 
     }
