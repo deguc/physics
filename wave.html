@@ -34,7 +34,8 @@
         let VBox;   //速度の向き
         let lineBox;   //線の描画
         let MediumBox;   //媒質の表示
-        let slider;    //振動数の調整
+        let dSlider;    //媒質の間隔の調整
+        let rSlider;    //媒質の半径の調整
 
         window.addEventListener('load',function(){
             drawStart();
@@ -79,8 +80,16 @@
             VBox = document.getElementById('VBox');
             LineBox = document.getElementById('LineBox');
             MediumBox = document.getElementById('MediumBox');
-            
 
+            //媒質の間隔の調整
+            dSlider = document.getElementById('dSlider');
+            dSlider.value=d;
+            dSlider.addEventListener('input', dChange);
+
+            //媒質の半径の調整
+            rSlider = document.getElementById('rSlider');
+            rSlider.value=r;
+            rSlider.addEventListener('input', rChange);
 
             loop();
         }
@@ -164,12 +173,17 @@
             TSlider.value=T
 
         }
+        function dChange(event){
+            d=parseFloat(dSlider.value);
+           
+        }
+        function rChange(event){
+            r=parseInt(rSlider.value);
+           
+        }
 
 
 
-let volumeSlider = document.getElementById('volumeSlider');
-volumeSlider.addEventListener('input', inputChange);
-let msg = document.getElementById('msg');
     </script>
 
 </head>
@@ -191,6 +205,7 @@ let msg = document.getElementById('msg');
     <br>
     <label><input type="checkbox" id="MediumBox">媒質</label>
     <label>間隔<input type="range" id="dSlider" min="1" max="100"></label>
+    <label>半径<input type="range" id="rSlider" min="1" max="50"></label>
 
         
 </body>
