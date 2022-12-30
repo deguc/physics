@@ -36,6 +36,9 @@
         let MediumBox;   //媒質の表示
         let dSlider;    //媒質の間隔の調整
         let rSlider;    //媒質の半径の調整
+        let CurveBox;   //正弦波を表示
+
+        
 
         window.addEventListener('load',function(){
             drawStart();
@@ -90,6 +93,8 @@
             rSlider = document.getElementById('rSlider');
             rSlider.value=r;
             rSlider.addEventListener('input', rChange);
+
+            CurveBox = document.getElementById('CurveBox');
 
             loop();
         }
@@ -151,7 +156,13 @@
         }
         function getY(x){
             let y;
-            y=sinWave(A,T,L,x,t);
+            if(CurveBox.checked){
+                y=sinWave(A,T,L,x,t);
+
+            }else{
+                y=sinWave(A*0.6,T,L,x,t)
+                y+=sinWave(A*0.4,T,L/2,x,t);
+            }
             return y
         }
  
@@ -189,15 +200,12 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <label>振幅</label>
-    <input type="range" id="ASlider" min="0">
-    <label>波長</label>
-    <input type="range" id="LSlider" min="-20" max="-1">
-    <label>周期</label>
-    <input type="range" id="TSlider" min="2" max="200">
-    <br>
-    <label>振動数</label>
-    <input type="range" id="FSlider">
+    <label>振幅<input type="range" id="ASlider" min="0"></label>
+    
+    <label>波長<input type="range" id="LSlider" min="-20" max="-1"></label>
+    <label>周期 <input type="range" id="TSlider" min="2" max="200"></label>
+    <label>振動数<input type="range" id="FSlider"></label>
+    
     <br>
     <label><input type="checkbox" checked id="AnimeBox">アニメーション</label>
     <label><input type="checkbox" id="VBox">負の速度</label>
@@ -206,6 +214,9 @@
     <label><input type="checkbox" id="MediumBox">媒質</label>
     <label>間隔<input type="range" id="dSlider" min="1" max="100"></label>
     <label>半径<input type="range" id="rSlider" min="1" max="50"></label>
+    <br>
+    <label><input type="checkbox" checked id="CurveBox">正弦波</label>
+    
 
         
 </body>
