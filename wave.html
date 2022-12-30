@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>波</title>
+    <style>
+        #canvas{
+            width: 1000px;
+            height: 500px;
+            background-color: #000000;
+        }
+    </style>
+    <script>
+        let canvasElement;
+        let context;
+        let A;   //振幅
+        let T;   //周期
+        let L=100;   //波長
+        let t=0;    //時間
+        let v=1;    //速度の向き
+
+        var width;
+        var height;
+        
+        let d=20;  //媒質の間隔
+        let r=20;   //媒質の半径   
+
+        let ASlider;    //振幅の調整
+        let LSlider;    //波長の調整
+        let TSlider;    //周期の調整
+        let FSlider;    //振動数の調整
+
+        let AnimeBox;   //波形を動かすかどうか。
+        let VBox;   //速度の向き
+        let lineBox;   //線の描画
+        let MediumBox;   //媒質の表示
+        let slider;    //振動数の調整
+
+        window.addEventListener('load',function(){
+            drawStart();
+        })
+        function drawStart(){
+            canvasElement=document.getElementById('canvas');
+            canvasElement.width=canvasElement.clientWidth;
+            canvasElement.height=canvasElement.clientHeight;
+            context=canvasElement.getContext('2d');
+
+            width=canvasElement.width;
+            height=canvasElement.height;
+
+            A=height*0.25;
+            L=width/4;
+            T=100;
+        
+            ASlider = document.getElementById('ASlider');
+            ASlider.value=A;
+            ASlider.max=height*0.5;
+            ASlider.addEventListener('input', AChange);
+
+            LSlider = document.getElementById('LSlider');
+            LSlider.value=-4;
+            LSlider.addEventListener('input', LChange);
+
+            let Tmax=200;
+            let Tmin=2
+            TSlider = document.getElementById('TSlider');
+            TSlider.max=Tmax;
+            TSlider.min=Tmin;
+            TSlider.value=T;
+            TSlider.addEventListener('input', TChange);
+
+            FSlider = document.getElementById('FSlider');
+            FSlider.max=-Tmin;
+            FSlider.min=-Tmax;
+            FSlider.value=-T;   //本当は1/T
+            FSlider.addEventListener('input', FChange);
+
+            AnimeBox = document.getElementById('AnimeBox');
+            VBox = document.getElementById('VBox');
+            LineBox = document.getElementById('LineBox');
+            MediumBox = document.getElementById('MediumBox');
+            
+
+
+            loop();
+        }
+        function loop(){
+            var width=canvasElement.width;
+            var height=canvasElement.height;
+        
+            context.clearRect(0,0,width,height);
+
+            let y0=height/2;
+
+            if(LineBox.checked){
+                context.strokeStyle="#FFFFFF";
+                context.lineWidth=2;
+                context.beginPath();
+                for(x=0.1;x<width;x+=0.1){
+                    y=getY(x-0.1);
+                    context.moveTo(x-0.1,y0-y);
+                    y=getY(x);
+                    context.lineTo(x,y0-y);
+
+                }
+                context.closePath();
+                context.stroke();
+
+            }
+            if(MediumBox.checked){
+                context.strokeStyle="#FFFFFF";
+                context.lineWidth=2;
+                for(x=0.1;x<width;x+=d){
+                    context.beginPath();
+                    y=getY(x-0.1);
+                    context.arc(x,y0-y,r,0,2*Math.PI,false);
+                    context.closePath();
+                    context.stroke();
+
+                }
+
+            }
+
+            if(AnimeBox.checked){
+                t++;
+
+            }            
+            requestAnimationFrame(loop);
+
+        }
+        function sinWave(A0,T0,L0,x0,t0){
+            //正弦波の変位を計算する。
+            if(VBox.checked){
+                v=-1;   //負の速度
+
+            }else{
+                v=+1;   //正の速度
+
+            }
+        
+            return A0*Math.sin(2*Math.PI*(t0/T0-v*x0/L0)) ;
+        }
+        function getY(x){
+            let y;
+            y=sinWave(A,T,L,x,t);
+            return y
+        }
+ 
+        function AChange(event){
+            A=ASlider.value;
+
+        }
+        function LChange(event){
+            L=-width/LSlider.value;
+
+        }
+        function TChange(event){
+            T=TSlider.value;
+            FSlider.value=-T;   //本当は1/T
+
+        }
+        function FChange(event){
+            T=-FSlider.value;   //本当は1/F
+            TSlider.value=T
+
+        }
+
+
+
+let volumeSlider = document.getElementById('volumeSlider');
+volumeSlider.addEventListener('input', inputChange);
+let msg = document.getElementById('msg');
+    </script>
+
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <label>振幅</label>
+    <input type="range" id="ASlider" min="0">
+    <label>波長</label>
+    <input type="range" id="LSlider" min="-20" max="-1">
+    <label>周期</label>
+    <input type="range" id="TSlider" min="2" max="200">
+    <br>
+    <label>振動数</label>
+    <input type="range" id="FSlider">
+    <br>
+    <label><input type="checkbox" checked id="AnimeBox">アニメーション</label>
+    <label><input type="checkbox" id="VBox">負の速度</label>
+    <label><input type="checkbox" checked id="LineBox">曲線</label>
+    <br>
+    <label><input type="checkbox" id="MediumBox">媒質</label>
+    <label>間隔<input type="range" id="dSlider" min="1" max="100"></label>
+
+        
+</body>
+</html>
