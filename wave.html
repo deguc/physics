@@ -37,6 +37,7 @@
         let dSlider;    //媒質の間隔の調整
         let rSlider;    //媒質の半径の調整
         let CurveBox;   //正弦波を表示
+        let VerticalBox;   //疎密波を表示
 
         
 
@@ -95,6 +96,7 @@
             rSlider.addEventListener('input', rChange);
 
             CurveBox = document.getElementById('CurveBox');
+            VerticalBox = document.getElementById('VerticalBox');
 
             loop();
         }
@@ -127,9 +129,15 @@
                 for(x=0.1;x<width;x+=d){
                     context.beginPath();
                     y=getY(x-0.1);
-                    context.arc(x,y0-y,r,0,2*Math.PI,false);
+                    if(VerticalBox.checked){
+                        context.arc(x+y,y0,r,0,2*Math.PI,false);
+                    }else{
+                        context.arc(x,y0-y,r,0,2*Math.PI,false);
+
+                    }
                     context.closePath();
                     context.stroke();
+
 
                 }
 
@@ -216,6 +224,8 @@
     <label>半径<input type="range" id="rSlider" min="1" max="50"></label>
     <br>
     <label><input type="checkbox" checked id="CurveBox">正弦波</label>
+    <br>
+    <label><input type="checkbox" id="VerticalBox">疎密波</label>
     
 
         
