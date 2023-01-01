@@ -38,6 +38,8 @@
         let rSlider;    //媒質の半径の調整
         let CurveBox;   //正弦波を表示
         let VerticalBox;   //疎密波を表示
+        let HDisplaceBox;   //疎密波の変位を表示
+        let DisplaceBox;   //変位を表示
 
         
 
@@ -97,6 +99,8 @@
 
             CurveBox = document.getElementById('CurveBox');
             VerticalBox = document.getElementById('VerticalBox');
+            HDisplaceBox = document.getElementById('HDisplaceBox');
+            DisplaceBox = document.getElementById('DisplaceBox');
 
             loop();
         }
@@ -107,6 +111,46 @@
             context.clearRect(0,0,width,height);
 
             let y0=height/2;
+
+            if(HDisplaceBox.checked){
+                //疎密波の変位を表示
+                context.strokeStyle="#aaaaFF";
+                context.fillStyle="#aaaaFF";
+                context.lineWidth=5;
+                for(x=0.1;x<width;x+=d){
+                    context.beginPath();
+                    context.moveTo(x,y0);
+                    y=getY(x);
+                    context.lineTo(x+y,y0);
+                    context.closePath();
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x,y0,5,0,2*Math.PI,false);
+                    context.closePath();
+                    context.fill();
+
+
+                }
+
+            }
+            if(DisplaceBox.checked){
+                //変位を表示
+                context.strokeStyle="#ffaaaa";
+                context.fillStyle="#ffaaaa";
+                context.lineWidth=5;
+                for(x=0.1;x<width;x+=d){
+                    context.beginPath();
+                    context.moveTo(x,y0);
+                    y=getY(x);
+                    context.lineTo(x,y0-y);
+                    context.closePath();
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x,y0,5,0,2*Math.PI,false);
+                    context.closePath();
+                    context.fill();
+                }
+            }
 
             if(LineBox.checked){
                 context.strokeStyle="#FFFFFF";
@@ -222,10 +266,12 @@
     <label><input type="checkbox" id="MediumBox">媒質</label>
     <label>間隔<input type="range" id="dSlider" min="1" max="100"></label>
     <label>半径<input type="range" id="rSlider" min="1" max="50"></label>
+    <label><input type="checkbox" id="DisplaceBox">変位</label>
     <br>
     <label><input type="checkbox" checked id="CurveBox">正弦波</label>
     <br>
     <label><input type="checkbox" id="VerticalBox">疎密波</label>
+    <label><input type="checkbox" id="HDisplaceBox">疎密波の変位</label>
     
 
         
