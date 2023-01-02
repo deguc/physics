@@ -43,6 +43,7 @@
         let HDisplaceBox;   //疎密波の変位を表示
         let DisplaceBox;   //変位を表示
         let GridBox;   //グリッドを表示
+        let CenterBox;   //センターラインを表示
 
         
 
@@ -105,6 +106,7 @@
             HDisplaceBox = document.getElementById('HDisplaceBox');
             DisplaceBox = document.getElementById('DisplaceBox');
             GridBox = document.getElementById('GridBox');   //グリッド
+            CenterBox = document.getElementById('CenterBox');   //センターライン
 
             loop();
         }
@@ -138,6 +140,16 @@
                     context.stroke();
                 }
             }
+            if(CenterBox.checked){
+                //センターラインの変位を表示
+                context.strokeStyle="#888888";
+                context.lineWidth=5;
+                context.beginPath();
+                context.moveTo(0,y0);
+                context.lineTo(width,y0);
+                context.closePath();
+                context.stroke();
+            }
 
             if(HDisplaceBox.checked){
                 //疎密波の変位を表示
@@ -155,6 +167,7 @@
                     context.arc(x,y0,5,0,2*Math.PI,false);
                     context.closePath();
                     context.fill();
+                    
                 }
             }
             if(DisplaceBox.checked){
@@ -298,6 +311,7 @@
     <label><input type="checkbox" id="HDisplaceBox">疎密波の変位</label>
     <br>
     <label><input type="checkbox" id="GridBox">グリッド</label>
+    <label><input type="checkbox" id="CenterBox">センターライン</label>
         
 
         
