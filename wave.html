@@ -5,8 +5,8 @@
     <title>波</title>
     <style>
         #canvas{
-            width: 1000px;
-            height: 500px;
+            width: 1200px;
+            height: 600px;
             background-color: #000000;
         }
     </style>
@@ -23,7 +23,9 @@
         var height;
         
         let d=20;  //媒質の間隔
-        let r=20;   //媒質の半径   
+        let r=20;   //媒質の半径 
+        
+        let gd=50;  //グリッド幅
 
         let ASlider;    //振幅の調整
         let LSlider;    //波長の調整
@@ -40,6 +42,7 @@
         let VerticalBox;   //疎密波を表示
         let HDisplaceBox;   //疎密波の変位を表示
         let DisplaceBox;   //変位を表示
+        let GridBox;   //グリッドを表示
 
         
 
@@ -101,6 +104,7 @@
             VerticalBox = document.getElementById('VerticalBox');
             HDisplaceBox = document.getElementById('HDisplaceBox');
             DisplaceBox = document.getElementById('DisplaceBox');
+            GridBox = document.getElementById('GridBox');   //グリッド
 
             loop();
         }
@@ -111,6 +115,29 @@
             context.clearRect(0,0,width,height);
 
             let y0=height/2;
+
+            
+            if(GridBox.checked){
+                //グリッドの変位を表示
+                context.strokeStyle="#888888";
+                context.lineWidth=1;
+                for(x=0;x<width;x+=gd){
+                    //縦線
+                    context.beginPath();
+                    context.moveTo(x,0);
+                    context.lineTo(x,height);
+                    context.closePath();
+                    context.stroke();
+                }
+                for(y=0;y<height;y+=gd){
+                    //横線
+                    context.beginPath();
+                    context.moveTo(0,y);
+                    context.lineTo(width,y);
+                    context.closePath();
+                    context.stroke();
+                }
+            }
 
             if(HDisplaceBox.checked){
                 //疎密波の変位を表示
@@ -128,10 +155,7 @@
                     context.arc(x,y0,5,0,2*Math.PI,false);
                     context.closePath();
                     context.fill();
-
-
                 }
-
             }
             if(DisplaceBox.checked){
                 //変位を表示
@@ -272,7 +296,9 @@
     <br>
     <label><input type="checkbox" id="VerticalBox">疎密波</label>
     <label><input type="checkbox" id="HDisplaceBox">疎密波の変位</label>
-    
+    <br>
+    <label><input type="checkbox" id="GridBox">グリッド</label>
+        
 
         
 </body>
